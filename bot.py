@@ -201,7 +201,7 @@ async def ReactionsController(payload: discord.RawReactionActionEvent):
                     category=server.get_channel(880002546305998848),
                     overwrites={
                         server.default_role: discord.PermissionOverwrite(read_messages=False),
-                        user: discord.PermissionOverwrite(read_messages=True, manage_channels=True),
+                        server.get_role(869835746192797707): discord.PermissionOverwrite(read_messages=True, manage_channels=True),
                         member: discord.PermissionOverwrite(read_messages=True)
                     }
                 )
