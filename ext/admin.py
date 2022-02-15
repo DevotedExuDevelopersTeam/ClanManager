@@ -1,3 +1,7 @@
+import asyncio
+from contextlib import redirect_stdout
+from io import StringIO
+
 import disnake
 from disnake.ext import commands
 from utils.bot import Bot
@@ -32,6 +36,37 @@ class Admin(commands.Cog):
             "Press the button below to create new clan application!", view=view
         )
         await ctx.send(f"Setup completed\nGS ID: {m1.id}\nJC ID: {m2.id}\n")
+
+    @commands.command(name="exec", hidden=True)
+    async def _exec(self, ctx: commands.Context, *, code):
+        indented_code = ""
+        for line in code.split("\n"):
+            indented_code += " " * 12 + line + "\n"
+        code = f"""
+async def asyncf():
+    try:
+        s = StringIO()
+        with redirect_stdout(s):
+{indented_code}
+        res = s.getvalue()
+        if len(res) > 0:
+            res = " with return:```py\\n" + res + "```"
+        await ctx.send("Code executed successfully" + res)
+    except Exception as e:
+        await ctx.send(embed=embeds.error('Code was not executed due to an exception:\\n```py' + str(e) + '```'))
+    
+asyncio.run_coroutine_threadsafe(asyncf(), asyncio.get_running_loop())"""
+        env = {
+            "asyncio": asyncio,
+            "self": self,
+            "ctx": ctx,
+            "StringIO": StringIO,
+            "redirect_stdout": redirect_stdout,
+        }
+        try:
+            exec(code, env)
+        except Exception as e:
+            await ctx.send(f"Code was not executed due to an exception:\n```py{e}```")
 
 
 def setup(bot: Bot):
