@@ -1,0 +1,6 @@
+ON_BUTTON_CLICK = "on_button_click"
+ON_MESSAGE = "on_message"
+ON_COMMAND_ERROR = "on_command_error"
+ON_SLASH_COMMAND_ERROR = "on_slash_command_error"
+ON_MEMBER_JOIN = "on_member_join"
+ON_MEMBER_REMOVE = "on_member_remove"

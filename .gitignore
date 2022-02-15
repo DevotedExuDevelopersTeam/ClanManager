@@ -1,4 +1,5 @@
-*.pkl
-encrypt_token.py
-token.crypt
-key.key
+__pycache__
+.tmp/*
+.env
+*.db
+oldbot.py
