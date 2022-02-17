@@ -222,7 +222,7 @@ class Verification(commands.Cog):
     async def cog_slash_command_check(
         self, inter: disnake.ApplicationCommandInteraction
     ) -> bool:
-        if inter.channel_id == self.bot.verify:
+        if inter.channel_id == self.bot.verify.id:
             return True
         await inter.send(
             f"This command can only be used in {self.bot.verify.mention}",
