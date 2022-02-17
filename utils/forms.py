@@ -114,12 +114,19 @@ class ClanApplicationForm(Modal):
                 return
             except TimeoutError:
                 await channel.send(
-                    f"{inter.author.mention}, your response has timed out. The thread is closing in 10 seconds. Please try again later."
+                    f"{inter.author.mention}, your response has timed out. The channel is closing in 10 seconds. Please try again later."
                 )
                 await sleep(10)
                 await channel.delete()
                 self.bot.pending_applicants.remove(inter.author.id)
                 return
+            except Exception as e:
+                self.bot.pending_applicants.remove(inter.author.id)
+                await channel.send(
+                    f"{inter.author.mention}, unknown error occured, we will be investigating it in the nearest time. Please be patient and attempt to try again."
+                )
+                await self.bot.admin.send(f"{self.bot.owner.mention}, unknown error occured\n```{e}```")
+                raise e
 
 
 class ReasonForm(Modal):

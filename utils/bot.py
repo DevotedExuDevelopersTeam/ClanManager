@@ -96,6 +96,7 @@ class Bot(commands.Bot):
         self.verify = self.get_channel(VERIFY_CHANNEL_ID)
         self.discussions = self.get_channel(DISCUSSIONS_CATEGORY_ID)
         self.pending_verification = self.get_channel(PENDING_VERIFICATIONS_CHANNEL_ID)
+        self.admin = self.get_channel(ADMIN_CHANNEL_ID)
 
         # application channels definition
         self.pending_applications = self.get_channel(PENDING_APPLICATIONS_CHANNEL_ID)
