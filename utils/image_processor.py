@@ -5,7 +5,7 @@ from skimage.metrics import structural_similarity as compare_ssim
 
 def calculate_ssim(file_name: str) -> float:
     img = Image.open(file_name)
-    img = img.resize(Image.open("res/profile_example.png").size)
+    img.resize(Image.open("res/profile_example.png").size).save(file_name)
 
     imageA = imread("res/profile_example.png")
     imageB = imread(file_name)
