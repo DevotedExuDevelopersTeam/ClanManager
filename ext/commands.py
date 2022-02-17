@@ -248,7 +248,7 @@ class Verification(commands.Cog):
             )
             return
         self.bot.pending_verification_requests.append(inter.author.id)
-        await inter.response.defer()
+        await inter.response.defer(ephemeral=True)
         view = disnake.ui.View()
         view.stop()
         view.add_item(
@@ -262,6 +262,7 @@ CLAN::{clan}\nBY::{inter.author.id}```",
             file=await screenshot.to_file(),
             view=view,
         )
+        await inter.send(f"Your verification request was submitted, please wait until officers review it!", ephemeral=True)
 
 
 def setup(bot: Bot):
