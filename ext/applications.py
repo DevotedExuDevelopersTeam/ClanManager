@@ -134,7 +134,7 @@ class ApplicationListeners(commands.Cog):
             )
             return
 
-        await inter.response.send(f"Closing channel...")
+        await inter.send(f"Closing channel...")
         await inter.channel.delete()
 
     async def _process_verification_review(self, inter: disnake.MessageInteraction):
