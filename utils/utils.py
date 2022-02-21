@@ -7,7 +7,7 @@ def to_discord_timestamp(delta: timedelta):
 
 
 def extract_regex(value: str, name: str) -> str:
-    name= name.replace('`', '')
+    value = value.replace('`', '')
     name = name.upper() + "::"
     pattern = name + r".*"
 

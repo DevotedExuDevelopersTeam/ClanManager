@@ -112,6 +112,9 @@ class ApplicationListeners(commands.Cog):
             view = disnake.ui.View()
             view.stop()
             view.add_item(
+                disnake.ui.Button(style=disnake.ButtonStyle.green, label='Accept')
+            )
+            view.add_item(
                 disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
             )
             await channel.send(
@@ -152,6 +155,15 @@ class ApplicationListeners(commands.Cog):
                 await inter.send(
                     f"Successfully added {clan.mention} to {member.mention}"
                 )
+                view = disnake.ui.View()
+                view.stop()
+                view.add_item(
+                    disnake.ui.Button(style=disnake.ButtonStyle.green, label='Accept', disabled=True)
+                )
+                view.add_item(
+                    disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
+                )
+                await inter.message.edit(view=view)
             except:
                 await inter.send(f"Seems like this member left the server")
 
