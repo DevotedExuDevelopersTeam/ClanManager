@@ -40,9 +40,14 @@ class ApplicationListeners(commands.Cog):
             )
 
     async def _process_application_review(self, inter: disnake.MessageInteraction):
-        id = extract_regex(inter.message.embeds[0].description, 'id')
+        id = None
+        try:
+            id = extract_regex(inter.message.embeds[0].description, "id")
+        except:
+            return
         if id is None:
             return
+        id = int(id)
 
         if not any(
             [
@@ -109,8 +114,11 @@ class ApplicationListeners(commands.Cog):
             view.add_item(
                 disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
             )
-            await channel.send(f"Press `close` button to close this channel. Press `accept` button to add clan role to the person.\n\
-```REGEX DATA\nCLAN::{res}\nID::{member.id}```", view=view)
+            await channel.send(
+                f"Press `close` button to close this channel. Press `accept` button to add clan role to the person.\n\
+```REGEX DATA\nCLAN::{res}\nID::{member.id}```",
+                view=view,
+            )
             try:
                 await member.send(
                     f"Congratulations, you were accepted into `{res}`! Please wait in {channel.mention} for further instructions."
@@ -118,9 +126,7 @@ class ApplicationListeners(commands.Cog):
             except:
                 pass
 
-    async def _process_discussion_channel(
-        self, inter: disnake.MessageInteraction
-    ):
+    async def _process_discussion_channel(self, inter: disnake.MessageInteraction):
         if not any(
             [
                 self.bot.officer in inter.author.roles,
@@ -133,17 +139,19 @@ class ApplicationListeners(commands.Cog):
             )
             return
 
-        if inter.component.label == 'Close':
+        if inter.component.label == "Close":
             await inter.send(f"Closing channel...")
             await inter.channel.delete()
 
-        elif inter.component.label == 'Accept':
+        elif inter.component.label == "Accept":
             content = inter.message.content
-            member = self.bot.get_member(int(extract_regex(content, 'id')))
-            clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, 'clan')])
+            member = self.bot.get_member(int(extract_regex(content, "id")))
+            clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, "clan")])
             try:
                 await member.add_roles(clan)
-                await inter.send(f"Successfully added {clan.mention} to {member.mention}")
+                await inter.send(
+                    f"Successfully added {clan.mention} to {member.mention}"
+                )
             except:
                 await inter.send(f"Seems like this member left the server")
 
@@ -152,7 +160,7 @@ class ApplicationListeners(commands.Cog):
         clan = search(r"CLAN::.*", inter.message.content).group().replace("CLAN::", "")
         member_id = int(
             search(r"BY::\d*", inter.message.content).group().replace("BY::", "")
-        ) #TODO
+        )  # TODO
         member = self.bot.get_member(member_id)
         await member.remove_roles(self.bot.unverified)
         try:

@@ -215,18 +215,24 @@ class ClanManagement(commands.Cog):
             spam_messages.append(await c.send(f"{role.mention} {text}"))
         await c.delete_messages(spam_messages)
 
-    @commands.slash_command(
-        name='setid',
-        description="Sets ID for a member."
-    )
-    async def setid(self, inter: disnake.ApplicationCommandInteraction, user: disnake.Member, new_id: int):
-        current_id = search(r'\[\d*\]', user.display_name)
+    @commands.slash_command(name="setid", description="Sets ID for a member.")
+    async def setid(
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        new_id: int,
+    ):
+        current_id = search(r"\[\d*\]", user.display_name)
         if current_id is None:
-            await user.edit(nick=f'[{new_id}] {user.display_name}')
+            await user.edit(nick=f"[{new_id}] {user.display_name}")
         else:
-            await user.edit(nick=user.display_name.replace(current_id.group(), f'[{new_id}]'))
+            await user.edit(
+                nick=user.display_name.replace(current_id.group(), f"[{new_id}]")
+            )
 
-        await inter.send(f"Successfully changed the ID for {user.mention}", ephemeral=True)
+        await inter.send(
+            f"Successfully changed the ID for {user.mention}", ephemeral=True
+        )
 
 
 class Verification(commands.Cog):
@@ -276,7 +282,10 @@ CLAN::{clan}\nBY::{inter.author.id}```",
             file=await screenshot.to_file(),
             view=view,
         )
-        await inter.send(f"Your verification request was submitted, please wait until officers review it!", ephemeral=True)
+        await inter.send(
+            f"Your verification request was submitted, please wait until officers review it!",
+            ephemeral=True,
+        )
 
 
 def setup(bot: Bot):

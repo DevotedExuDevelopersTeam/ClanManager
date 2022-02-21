@@ -93,7 +93,7 @@ class ClanApplicationForm(Modal):
                 embed = Embed(
                     color=0xFFFF00,
                     title="New Application",
-                    description=f'```REGEX DATA\nID::{inter.author.id}```',
+                    description=f"```REGEX DATA\nID::{inter.author.id}```",
                 )
                 for k, v in data.items():
                     embed.add_field(k, v, inline=False)
@@ -130,7 +130,9 @@ class ClanApplicationForm(Modal):
                 await channel.send(
                     f"{inter.author.mention}, unknown error occured, we will be investigating it in the nearest time. Please be patient and attempt to try again."
                 )
-                await self.bot.admin.send(f"{self.bot.owner.mention}, unknown error occured\n```{e}```")
+                await self.bot.admin.send(
+                    f"{self.bot.owner.mention}, unknown error occured\n```{e}```"
+                )
                 raise e
 
 
