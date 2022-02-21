@@ -6,6 +6,7 @@ from utils.bot import Bot
 from utils.constants import CLAN_ROLES
 from utils.events import ON_BUTTON_CLICK
 from utils.forms import ClanApplicationForm, ReasonForm
+from utils.utils import extract_regex
 from utils.views import ClansButtonsView
 
 
@@ -39,9 +40,8 @@ class ApplicationListeners(commands.Cog):
             )
 
     async def _process_application_review(self, inter: disnake.MessageInteraction):
-        try:
-            id = int(inter.message.embeds[0].description)
-        except (IndexError, ValueError):
+        id = extract_regex(inter.message.embeds[0].description, 'id')
+        if id is None:
             return
 
         if not any(
@@ -85,9 +85,7 @@ class ApplicationListeners(commands.Cog):
 
             member = self.bot.get_member(id)
             await member.remove_roles(self.bot.applicant)
-            await member.add_roles(
-                self.bot.get_role(CLAN_ROLES[res]), self.bot.verified
-            )
+            await member.add_roles(self.bot.verified)
             channel = await self.bot.server.create_text_channel(
                 f"dc-{member}",
                 category=self.bot.discussions,
@@ -111,7 +109,8 @@ class ApplicationListeners(commands.Cog):
             view.add_item(
                 disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
             )
-            await channel.send(f"Created channel for discussion.", view=view)
+            await channel.send(f"Press `close` button to close this channel. Press `accept` button to add clan role to the person.\n\
+```REGEX DATA\nCLAN::{res}\nID::{member.id}```", view=view)
             try:
                 await member.send(
                     f"Congratulations, you were accepted into `{res}`! Please wait in {channel.mention} for further instructions."
@@ -119,7 +118,7 @@ class ApplicationListeners(commands.Cog):
             except:
                 pass
 
-    async def _process_discussion_channel_close(
+    async def _process_discussion_channel(
         self, inter: disnake.MessageInteraction
     ):
         if not any(
@@ -134,15 +133,26 @@ class ApplicationListeners(commands.Cog):
             )
             return
 
-        await inter.send(f"Closing channel...")
-        await inter.channel.delete()
+        if inter.component.label == 'Close':
+            await inter.send(f"Closing channel...")
+            await inter.channel.delete()
+
+        elif inter.component.label == 'Accept':
+            content = inter.message.content
+            member = self.bot.get_member(int(extract_regex(content, 'id')))
+            clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, 'clan')])
+            try:
+                await member.add_roles(clan)
+                await inter.send(f"Successfully added {clan.mention} to {member.mention}")
+            except:
+                await inter.send(f"Seems like this member left the server")
 
     async def _process_verification_review(self, inter: disnake.MessageInteraction):
         await inter.response.defer(ephemeral=True)
         clan = search(r"CLAN::.*", inter.message.content).group().replace("CLAN::", "")
         member_id = int(
             search(r"BY::\d*", inter.message.content).group().replace("BY::", "")
-        )
+        ) #TODO
         member = self.bot.get_member(member_id)
         await member.remove_roles(self.bot.unverified)
         try:
@@ -180,7 +190,7 @@ class ApplicationListeners(commands.Cog):
             await self._process_application_review(inter)
 
         elif inter.channel.category_id == self.bot.discussions.id:
-            await self._process_discussion_channel_close(inter)
+            await self._process_discussion_channel(inter)
 
         elif inter.channel_id == self.bot.pending_verification.id:
             await self._process_verification_review(inter)

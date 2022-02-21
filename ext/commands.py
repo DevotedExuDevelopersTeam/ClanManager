@@ -1,4 +1,5 @@
 from asyncio import sleep
+from re import search
 from typing import Callable
 
 import disnake
@@ -213,6 +214,19 @@ class ClanManagement(commands.Cog):
         for _ in range(times):
             spam_messages.append(await c.send(f"{role.mention} {text}"))
         await c.delete_messages(spam_messages)
+
+    @commands.slash_command(
+        name='setid',
+        description="Sets ID for a member."
+    )
+    async def setid(self, inter: disnake.ApplicationCommandInteraction, user: disnake.Member, new_id: int):
+        current_id = search(r'\[\d*\]', user.display_name)
+        if current_id is None:
+            await user.edit(nick=f'[{new_id}] {user.display_name}')
+        else:
+            await user.edit(nick=user.display_name.replace(current_id.group(), f'[{new_id}]'))
+
+        await inter.send(f"Successfully changed the ID for {user.mention}", ephemeral=True)
 
 
 class Verification(commands.Cog):

@@ -54,6 +54,11 @@ class ClanApplicationForm(Modal):
 
     async def callback(self, inter: ModalInteraction):
         data = inter.text_values
+        try:
+            await inter.user.edit(nick=f'[{data["ID"]}] {inter.user.display_name}')
+        except Exception as e:
+            print(e)
+
         channel = await inter.guild.create_text_channel(
             name=f"apl-{inter.author}",
             category=inter.channel.category,
@@ -88,7 +93,7 @@ class ClanApplicationForm(Modal):
                 embed = Embed(
                     color=0xFFFF00,
                     title="New Application",
-                    description=str(inter.author.id),
+                    description=f'```REGEX DATA\nID::{inter.author.id}```',
                 )
                 for k, v in data.items():
                     embed.add_field(k, v, inline=False)
