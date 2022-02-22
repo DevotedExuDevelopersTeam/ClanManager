@@ -83,6 +83,7 @@ class ApplicationListeners(commands.Cog):
             embed.color = 0x00FF00
             embed.title = "Accepted Application"
             await self.bot.accepted_applications.send(
+                f"Application by <@{extract_regex(embed.description, 'id')}> was accepted.",
                 embed=inter.message.embeds[0],
                 file=await inter.message.attachments[0].to_file(),
             )

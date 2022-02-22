@@ -16,6 +16,7 @@ from disnake.ui import Button, Modal, TextInput, View
 from utils.bot import Bot
 from utils.constants import FAQ_CHANNEL_ID, OFFICER_ROLE_ID
 from utils.image_processor import calculate_ssim
+from utils.utils import extract_regex
 
 
 class ClanApplicationForm(Modal):
@@ -166,7 +167,9 @@ class ReasonForm(Modal):
         embed.color = 0xFF0000
         embed.title = "Denied Application"
         await self.bot.denied_applications.send(
-            embed=embed, file=await self.inter.message.attachments[0].to_file()
+            f"Application by <@{extract_regex(embed.description, 'id')}> was denied.",
+            embed=embed,
+            file=await self.inter.message.attachments[0].to_file(),
         )
         await self.inter.message.delete()
         await self.inter.send(
