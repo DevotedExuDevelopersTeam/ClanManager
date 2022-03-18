@@ -11,7 +11,7 @@ imageio==2.16.1
 multidict==6.0.2
 networkx==2.7.1
 numpy==1.22.3
-opencv-python==4.5.5.62
+opencv-python==4.5.5.64
 packaging==21.3
 Pillow==9.0.1
 pyparsing==3.0.7
