@@ -2,6 +2,7 @@ from datetime import datetime
 
 import disnake
 from disnake.ext import commands, tasks
+
 from utils.bot import Bot
 from utils.events import ON_MEMBER_JOIN, ON_MEMBER_REMOVE, ON_SLASH_COMMAND_ERROR
 

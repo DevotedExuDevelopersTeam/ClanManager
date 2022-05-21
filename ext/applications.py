@@ -2,6 +2,7 @@ from re import search
 
 import disnake
 from disnake.ext import commands
+
 from utils.bot import Bot
 from utils.constants import CLAN_ROLES
 from utils.events import ON_BUTTON_CLICK
@@ -50,11 +51,11 @@ class ApplicationListeners(commands.Cog):
         id = int(id)
 
         if not any(
-            [
-                self.bot.officer in inter.author.roles,
-                self.bot.staff in inter.author.roles,
-                inter.author.guild_permissions.administrator,
-            ]
+                [
+                    self.bot.officer in inter.author.roles,
+                    self.bot.staff in inter.author.roles,
+                    inter.author.guild_permissions.administrator,
+                ]
         ):
             await inter.send(
                 f"You don't have right to review the applications.", ephemeral=True
@@ -113,7 +114,7 @@ class ApplicationListeners(commands.Cog):
             view = disnake.ui.View()
             view.stop()
             view.add_item(
-                disnake.ui.Button(style=disnake.ButtonStyle.green, label='Accept')
+                disnake.ui.Button(style=disnake.ButtonStyle.green, label="Accept")
             )
             view.add_item(
                 disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
@@ -132,11 +133,11 @@ class ApplicationListeners(commands.Cog):
 
     async def _process_discussion_channel(self, inter: disnake.MessageInteraction):
         if not any(
-            [
-                self.bot.officer in inter.author.roles,
-                self.bot.staff in inter.author.roles,
-                inter.author.guild_permissions.administrator,
-            ]
+                [
+                    self.bot.officer in inter.author.roles,
+                    self.bot.staff in inter.author.roles,
+                    inter.author.guild_permissions.administrator,
+                ]
         ):
             await inter.send(
                 f"You don't have right to close this channel.", ephemeral=True
@@ -159,7 +160,9 @@ class ApplicationListeners(commands.Cog):
                 view = disnake.ui.View()
                 view.stop()
                 view.add_item(
-                    disnake.ui.Button(style=disnake.ButtonStyle.green, label='Accept', disabled=True)
+                    disnake.ui.Button(
+                        style=disnake.ButtonStyle.green, label="Accept", disabled=True
+                    )
                 )
                 view.add_item(
                     disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")

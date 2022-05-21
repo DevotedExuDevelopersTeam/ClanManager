@@ -1,5 +1,5 @@
-from cv2 import COLOR_BGR2GRAY, cvtColor, imread
 from PIL import Image
+from cv2 import COLOR_BGR2GRAY, cvtColor, imread
 from skimage.metrics import structural_similarity as compare_ssim
 
 
