@@ -4,8 +4,8 @@ ENV VIRTUAL_ENV=/app/venv
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN sudo apt-get update
-RUN sudo apt-get install -y libgl1-mesa-dev
+RUN apt-get update -y
+RUN apt-get install -y libgl1-mesa-dev
 
 WORKDIR /app
 COPY requirements.txt .
