@@ -51,11 +51,11 @@ class ApplicationListeners(commands.Cog):
         id = int(id)
 
         if not any(
-                [
-                    self.bot.officer in inter.author.roles,
-                    self.bot.staff in inter.author.roles,
-                    inter.author.guild_permissions.administrator,
-                ]
+            [
+                self.bot.officer in inter.author.roles,
+                self.bot.staff in inter.author.roles,
+                inter.author.guild_permissions.administrator,
+            ]
         ):
             await inter.send(
                 f"You don't have right to review the applications.", ephemeral=True
@@ -133,11 +133,11 @@ class ApplicationListeners(commands.Cog):
 
     async def _process_discussion_channel(self, inter: disnake.MessageInteraction):
         if not any(
-                [
-                    self.bot.officer in inter.author.roles,
-                    self.bot.staff in inter.author.roles,
-                    inter.author.guild_permissions.administrator,
-                ]
+            [
+                self.bot.officer in inter.author.roles,
+                self.bot.staff in inter.author.roles,
+                inter.author.guild_permissions.administrator,
+            ]
         ):
             await inter.send(
                 f"You don't have right to close this channel.", ephemeral=True

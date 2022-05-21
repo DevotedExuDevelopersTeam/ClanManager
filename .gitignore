@@ -1,7 +1,5 @@
 __pycache__
 .tmp/*
-.env
 .idea
 venv
-*.db
-oldbot.py
+data

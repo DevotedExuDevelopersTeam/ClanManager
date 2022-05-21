@@ -5,8 +5,8 @@ import disnake
 from aiosqlite import connect
 from disnake.ext import commands
 from dotenv import load_dotenv
+from exencolorlogs import Logger
 
-from utils.colorlog import Logger
 from utils.constants import *
 
 
@@ -37,19 +37,11 @@ class Bot(commands.Bot):
         with open("config.sql", "r") as f:
             await self.execute(f.read())
 
-    def write_new_token(self):
-        token = input("Enter the token: ")
-        with open(".env", "w") as f:
-            f.write("TOKEN=" + token)
-
-        self.log.info("Token was registered successfully.")
-
     def run(self):
         if not os.path.exists(".tmp"):
             os.mkdir(".tmp")
-        if not os.path.exists(".env"):
-            self.log.warning("Token was not found. Please insert a new token.")
-            self.write_new_token()
+        if not os.path.exists("data"):
+            os.mkdir("data")
 
         load_dotenv()
         try:
@@ -63,7 +55,7 @@ class Bot(commands.Bot):
 
     async def start(self, *args, **kwargs):
         self.log.info("Connecting to database...")
-        self.db = await connect("database.db")
+        self.db = await connect("data/database.db")
         self.log.info("Database connection established.")
         await self.create_database()
 

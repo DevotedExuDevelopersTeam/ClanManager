@@ -1,4 +1,3 @@
-from asyncio import sleep
 from re import search
 from typing import Callable
 
@@ -18,20 +17,20 @@ class Moderation(commands.Cog):
         self.bot = bot
 
     def cog_slash_command_check(
-            self, inter: disnake.ApplicationCommandInteraction
+        self, inter: disnake.ApplicationCommandInteraction
     ) -> bool:
         return (
-                inter.author.guild_permissions.administrator
-                or self.bot.staff in inter.author.roles
+            inter.author.guild_permissions.administrator
+            or self.bot.staff in inter.author.roles
         )
 
     @commands.slash_command(name="mute", description="Mutes (timeouts) a member.")
     async def mute(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            time: TimeConverter,
-            reason: str = "No reason provided",
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        time: TimeConverter,
+        reason: str = "No reason provided",
     ):
         if inter.author.top_role.position <= user.top_role.position:
             await inter.send(
@@ -55,7 +54,7 @@ class Moderation(commands.Cog):
 
     @commands.slash_command(name="unmute", description="Unmutes a member.")
     async def unmute(
-            self, inter: disnake.ApplicationCommandInteraction, user: disnake.Member
+        self, inter: disnake.ApplicationCommandInteraction, user: disnake.Member
     ):
         if inter.author.top_role.position <= user.top_role.position:
             await inter.send(
@@ -72,11 +71,11 @@ class Moderation(commands.Cog):
 
     @commands.slash_command(name="ban", description="Bans a member.")
     async def ban(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            reason: str = "No reason provided",
-            time: TimeConverter = None,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        reason: str = "No reason provided",
+        time: TimeConverter = None,
     ):
         if inter.author.top_role.position <= user.top_role.position:
             await inter.send(
@@ -103,10 +102,10 @@ class Moderation(commands.Cog):
 
     @commands.slash_command(name="kick", description="Kicks a member.")
     async def kick(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            reason: str = "No reason provided",
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        reason: str = "No reason provided",
     ):
         if inter.author.top_role.position <= user.top_role.position:
             await inter.send(
@@ -128,11 +127,11 @@ class Moderation(commands.Cog):
 
     @commands.slash_command(name="purge", description="Purges messages in a channel")
     async def purge(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            amount: int,
-            channel: disnake.TextChannel = None,
-            user: disnake.Member = None,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        amount: int,
+        channel: disnake.TextChannel = None,
+        user: disnake.Member = None,
     ):
         await inter.response.defer(ephemeral=True)
         channel = channel or inter.channel
@@ -150,7 +149,7 @@ class Moderation(commands.Cog):
 
     @commands.message_command(name="Purge all below")
     async def purge_all_below(
-            self, inter: disnake.ApplicationCommandInteraction, message: disnake.Message
+        self, inter: disnake.ApplicationCommandInteraction, message: disnake.Message
     ):
         await inter.response.defer(ephemeral=True)
         amount = len(await inter.channel.purge(after=message.created_at))
@@ -164,14 +163,14 @@ class ClanManagement(commands.Cog):
         self.bot = bot
 
     async def cog_slash_command_check(
-            self, inter: disnake.ApplicationCommandInteraction
+        self, inter: disnake.ApplicationCommandInteraction
     ):
         if any(
-                [
-                    self.bot.officer in inter.author.roles,
-                    self.bot.staff in inter.author.roles,
-                    inter.author.guild_permissions.administrator,
-                ]
+            [
+                self.bot.officer in inter.author.roles,
+                self.bot.staff in inter.author.roles,
+                inter.author.guild_permissions.administrator,
+            ]
         ):
             return True
         await inter.send(f"You cannot use this command.", ephemeral=True)
@@ -179,10 +178,10 @@ class ClanManagement(commands.Cog):
 
     @commands.slash_command(name="addclan", description="Adds a clan role to a member.")
     async def addclan(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            clan: str = clans,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        clan: str = clans,
     ):
         await user.add_roles(self.bot.get_role(CLAN_ROLES[clan]))
         await inter.send(f"Successfully added `{clan}` role to {user.mention}")
@@ -191,21 +190,21 @@ class ClanManagement(commands.Cog):
         name="removeclan", description="Removed clan role from a member."
     )
     async def removeclan(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            clan: str = clans,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        clan: str = clans,
     ):
         await user.remove_roles(self.bot.get_role(CLAN_ROLES[clan]))
         await inter.send(f"Successfully removed `{clan}` role from {user.mention}")
 
     @commands.slash_command(name="spamping", description="Spam pings certain clan")
     async def spamping(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            clan: str = clans,
-            times: int = commands.Param(ge=10, le=50),
-            text: str = None,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        clan: str = clans,
+        times: int = commands.Param(ge=10, le=50),
+        text: str = None,
     ):
         text = text or "GET ON"
         await inter.send(f"Started spamping!", ephemeral=True)
@@ -218,10 +217,10 @@ class ClanManagement(commands.Cog):
 
     @commands.slash_command(name="setid", description="Sets ID for a member.")
     async def setid(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            user: disnake.Member,
-            new_id: int,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member,
+        new_id: int,
     ):
         current_id = search(r"\[\d*\]", user.display_name)
         if current_id is None:
@@ -241,7 +240,7 @@ class Verification(commands.Cog):
         self.bot = bot
 
     async def cog_slash_command_check(
-            self, inter: disnake.ApplicationCommandInteraction
+        self, inter: disnake.ApplicationCommandInteraction
     ) -> bool:
         if inter.channel_id == self.bot.verify.id:
             return True
@@ -255,12 +254,12 @@ class Verification(commands.Cog):
         name="verify", description="Verifies your being in the clan."
     )
     async def verify_cmd(
-            self,
-            inter: disnake.ApplicationCommandInteraction,
-            screenshot: disnake.Attachment = commands.Param(
-                description="The screenshot of clan's page with your name in"
-            ),
-            clan: str = clans,
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        screenshot: disnake.Attachment = commands.Param(
+            description="The screenshot of clan's page with your name in"
+        ),
+        clan: str = clans,
     ):
         if inter.author.id in self.bot.pending_verification_requests:
             await inter.send(

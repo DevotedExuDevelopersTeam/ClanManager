@@ -1,0 +1,25 @@
+name: Docker Runner
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  run:
+    runs-on: self-hosted
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t clan-manager .
+
+      - name: Kill Previous Container
+        continue-on-error: true
+        run: docker rm -f clan-manager
+
+      - name: Run New Container
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+        run: docker run -d --name clan-manager -v $HOME/clan/data:/app/data -e TOKEN=$TOKEN clan-manager:latest
