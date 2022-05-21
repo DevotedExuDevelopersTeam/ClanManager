@@ -4,7 +4,8 @@ ENV VIRTUAL_ENV=/app/venv
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN apt install python3-opencv
+RUN sudo apt-get update
+RUN sudo apt-get install -y libgl1-mesa-dev
 
 WORKDIR /app
 COPY requirements.txt .
