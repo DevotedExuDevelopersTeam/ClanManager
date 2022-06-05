@@ -182,7 +182,7 @@ class ClanManagement(commands.Cog):
         user: disnake.Member,
         clan: str = clans,
     ):
-        await user.add_roles(self.bot.get_role(CLAN_ROLES[clan]))
+        await user.add_roles(self.bot.get_role(CLAN_ROLES[clan]), self.bot.clan_member, self.bot.verified)
         await inter.send(f"Successfully added `{clan}` role to {user.mention}")
 
     @commands.slash_command(
