@@ -36,7 +36,7 @@ class Bot(commands.Bot):
 
     async def create_database(self):
         with open("config.sql", "r") as f:
-            await self.execute(f.read())
+            await self.db.executescript(f.read())
 
     def run(self):
         if not os.path.exists(".tmp"):
