@@ -4,7 +4,8 @@ import disnake
 from disnake.ext import commands, tasks
 
 from utils.bot import Bot
-from utils.events import ON_MEMBER_JOIN, ON_MEMBER_REMOVE, ON_SLASH_COMMAND_ERROR
+from utils.constants import CLAN_ROLES
+from utils.events import ON_SLASH_COMMAND_ERROR
 
 
 class CoreLoops(commands.Cog):
@@ -38,6 +39,17 @@ class CoreListeners(commands.Cog):
     async def error_handler(self, inter: disnake.ApplicationCommandInteraction, error):
         await inter.send(str(error), ephemeral=True)
         raise error
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before: disnake.Member, after: disnake.Member):
+        before_roles = set(before.roles)
+        after_roles = set(after.roles)
+        difference_roles = after_roles - before_roles
+        difference_roles_ids = map(lambda r: r.id, difference_roles)
+        for role_id in CLAN_ROLES:
+            if role_id in difference_roles_ids:
+                await after.add_roles(self.bot.clan_member, self.bot.verified)
+                return
 
 
 def setup(bot: Bot):
