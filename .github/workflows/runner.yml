@@ -24,5 +24,8 @@ jobs:
           TOKEN: ${{ secrets.TOKEN }}
         run: docker run -d --name clan-manager -v $HOME/clan/data:/app/data -e TOKEN=$TOKEN clan-manager:latest
 
+      - name: Fetch Logs
+        run: python3 read_logs.py
+
       - name: Destroy Unused Containers
         run: docker image prune -f
