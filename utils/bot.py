@@ -13,7 +13,7 @@ from utils.constants import *
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
-            "!",
+            "cm!",
             intents=disnake.Intents.all(),
             strip_after_prefix=True,
             case_insensitive=True,
