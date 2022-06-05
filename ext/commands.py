@@ -304,3 +304,4 @@ def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
     bot.add_cog(ClanManagement(bot))
     bot.add_cog(Verification(bot))
+    bot.add_cog(Miscellaneous(bot))
