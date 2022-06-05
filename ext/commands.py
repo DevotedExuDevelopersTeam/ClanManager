@@ -1,4 +1,3 @@
-from re import search
 from typing import Callable
 
 import disnake
@@ -222,14 +221,7 @@ class ClanManagement(commands.Cog):
         user: disnake.Member,
         new_id: int,
     ):
-        current_id = search(r"\[\d*\]", user.display_name)
-        if current_id is None:
-            await user.edit(nick=f"[{new_id}] {user.display_name}")
-        else:
-            await user.edit(
-                nick=user.display_name.replace(current_id.group(), f"[{new_id}]")
-            )
-
+        await self.bot.set_pg_id(user.id, new_id)
         await inter.send(
             f"Successfully changed the ID for {user.mention}", ephemeral=True
         )
@@ -286,6 +278,26 @@ CLAN::{clan}\nBY::{inter.author.id}```",
             f"Your verification request was submitted, please wait until officers review it!",
             ephemeral=True,
         )
+
+
+class Miscellaneous(commands.Cog):
+    def __init__(self, bot: Bot):
+        self.bot = bot
+
+    @commands.slash_command(
+        name="getid", description="Shows pixelgun ID of a person, if they have one"
+    )
+    async def getid(
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.Member | None = None,
+    ):
+        user = user or inter.author
+        id = await self.bot.get_pg_id(user.id)
+        if id is None:
+            await inter.send("This person doesn't have ID assigned.")
+            return
+        await inter.send(f"ID of {user.mention} is `{id}`")
 
 
 def setup(bot: Bot):

@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timedelta
 
+import aiosqlite
 import disnake
 from aiosqlite import connect
 from disnake.ext import commands
@@ -26,7 +27,7 @@ class Bot(commands.Bot):
         self.pending_applicants = []
         self.pending_verification_requests = []
 
-    async def execute(self, query: str, *args):
+    async def execute(self, query: str, *args) -> aiosqlite.Cursor:
         self.log.info(f'Executing query: "{query}" with args {args}...')
         cur = await self.db.execute(query, args)
         await self.db.commit()
@@ -115,3 +116,13 @@ class Bot(commands.Bot):
 
     def get_member(self, member_id: int):
         return self.server.get_member(member_id)
+
+    async def set_pg_id(self, id: int, pg_id: int):
+        await self.execute("INSERT OR REPLACE INTO ids VALUES (?, ?)", id, pg_id)
+
+    async def get_pg_id(self, id: int) -> int | None:
+        cur = await self.execute("SELECT pg_id FROM ids WHERE id = ?", id)
+        try:
+            return (await cur.fetchone())[0]
+        except (KeyError, ValueError):
+            return None

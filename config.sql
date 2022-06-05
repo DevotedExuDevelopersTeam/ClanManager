@@ -10,3 +10,14 @@ CREATE TABLE IF NOT EXISTS bans
     NOT
     NULL
 );
+
+CREATE TABLE IF NOT EXISTS ids
+(
+    id
+    INT
+    UNIQUE
+    NOT
+    NULL,
+    pg_id
+    INT
+);

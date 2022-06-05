@@ -56,7 +56,7 @@ class ClanApplicationForm(Modal):
     async def callback(self, inter: ModalInteraction):
         data = inter.text_values
         try:
-            await inter.user.edit(nick=f'[{data["ID"]}] {inter.user.display_name}')
+            await self.bot.set_pg_id(inter.id, int(data["ID"]))
         except Exception as e:
             print(e)
 

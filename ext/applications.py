@@ -41,7 +41,6 @@ class ApplicationListeners(commands.Cog):
             )
 
     async def _process_application_review(self, inter: disnake.MessageInteraction):
-        id = None
         try:
             id = extract_regex(inter.message.embeds[0].description, "id")
         except:
