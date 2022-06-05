@@ -23,3 +23,6 @@ jobs:
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: docker run -d --name clan-manager -v $HOME/clan/data:/app/data -e TOKEN=$TOKEN clan-manager:latest
+
+      - name: Destroy Unused Containers
+        run: docker image prune -f
