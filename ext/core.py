@@ -39,16 +39,6 @@ class CoreListeners(commands.Cog):
         await inter.send(str(error), ephemeral=True)
         raise error
 
-    @commands.Cog.listener(ON_MEMBER_JOIN)
-    async def welcomer(self, member: disnake.Member):
-        await self.bot.welcome.send(
-            f"Hey {member.mention}, welcome to our server! Please visit {self.bot.get_started.mention} to verify yourself or join the clan!"
-        )
-
-    @commands.Cog.listener(ON_MEMBER_REMOVE)
-    async def goodbyer(self, member: disnake.Member):
-        await self.bot.welcome.send(f"**{member}** just left the server")
-
 
 def setup(bot: Bot):
     bot.add_cog(CoreLoops(bot))

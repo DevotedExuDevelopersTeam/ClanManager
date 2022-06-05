@@ -82,13 +82,12 @@ class Bot(commands.Bot):
         self.verified = self.get_role(VERIFIED_ROLE_ID)
 
         # channels definition
-        self.welcome = self.get_channel(WELCOME_CHANNEL_ID)
         self.get_started = self.get_channel(GET_STARTED_CHANNEL_ID)
         self.join_clan = self.get_channel(JOIN_CLAN_CHANNEL_ID)
         self.verify = self.get_channel(VERIFY_CHANNEL_ID)
         self.discussions = self.get_channel(DISCUSSIONS_CATEGORY_ID)
         self.pending_verification = self.get_channel(PENDING_VERIFICATIONS_CHANNEL_ID)
-        self.admin = self.get_channel(ADMIN_CHANNEL_ID)
+        self.admin = self.get_channel(LOG_CHANNEL_ID)
 
         # application channels definition
         self.pending_applications = self.get_channel(PENDING_APPLICATIONS_CHANNEL_ID)

@@ -32,7 +32,7 @@ class ApplicationListeners(commands.Cog):
             )
 
     async def _process_join_clan(self, inter: disnake.MessageInteraction):
-        if not inter.author.id in self.bot.pending_applicants:
+        if inter.author.id not in self.bot.pending_applicants:
             await inter.response.send_modal(ClanApplicationForm(self.bot))
         else:
             await inter.send(
@@ -176,7 +176,7 @@ class ApplicationListeners(commands.Cog):
         clan = search(r"CLAN::.*", inter.message.content).group().replace("CLAN::", "")
         member_id = int(
             search(r"BY::\d*", inter.message.content).group().replace("BY::", "")
-        )  # TODO
+        )
         member = self.bot.get_member(member_id)
         await member.remove_roles(self.bot.unverified)
         try:
