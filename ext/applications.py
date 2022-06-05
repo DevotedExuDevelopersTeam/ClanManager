@@ -153,7 +153,7 @@ class ApplicationListeners(commands.Cog):
             member = self.bot.get_member(int(extract_regex(content, "id")))
             clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, "clan")])
             try:
-                await member.add_roles(clan)
+                await member.add_roles(clan, self.bot.clan_member, self.bot.verified)
                 await inter.send(
                     f"Successfully added {clan.mention} to {member.mention}"
                 )
@@ -186,7 +186,7 @@ class ApplicationListeners(commands.Cog):
 
         if inter.component.label == "Accept":
             role = self.bot.get_role(CLAN_ROLES[clan])
-            await member.add_roles(role, self.bot.verified)
+            await member.add_roles(role, self.bot.verified, self.bot.clan_member)
             await inter.message.delete()
             await inter.send(f"Verified {member.mention}", ephemeral=True)
 

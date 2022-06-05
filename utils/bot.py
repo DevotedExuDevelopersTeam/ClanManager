@@ -80,6 +80,7 @@ class Bot(commands.Bot):
         self.applicant = self.get_role(APPLICANT_ROLE_ID)
         self.officer = self.get_role(OFFICER_ROLE_ID)
         self.verified = self.get_role(VERIFIED_ROLE_ID)
+        self.clan_member = self.get_role(CLAN_MEMBER_ROLE_ID)
 
         # channels definition
         self.get_started = self.get_channel(GET_STARTED_CHANNEL_ID)
