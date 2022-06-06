@@ -150,25 +150,23 @@ class ApplicationListeners(commands.Cog):
         elif inter.component.label == "Accept":
             content = inter.message.content
             member = self.bot.get_member(int(extract_regex(content, "id")))
-            clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, "clan")])
-            try:
-                await member.add_roles(clan, self.bot.clan_member, self.bot.verified)
-                await inter.send(
-                    f"Successfully added {clan.mention} to {member.mention}"
-                )
-                view = disnake.ui.View()
-                view.stop()
-                view.add_item(
-                    disnake.ui.Button(
-                        style=disnake.ButtonStyle.green, label="Accept", disabled=True
-                    )
-                )
-                view.add_item(
-                    disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
-                )
-                await inter.message.edit(view=view)
-            except:
+            if member is None:
                 await inter.send(f"Seems like this member left the server")
+            clan = self.bot.get_role(CLAN_ROLES[extract_regex(content, "clan")])
+
+            await member.add_roles(clan, self.bot.clan_member, self.bot.verified)
+            await inter.send(f"Successfully added {clan.mention} to {member.mention}")
+            view = disnake.ui.View()
+            view.stop()
+            view.add_item(
+                disnake.ui.Button(
+                    style=disnake.ButtonStyle.green, label="Accept", disabled=True
+                )
+            )
+            view.add_item(
+                disnake.ui.Button(style=disnake.ButtonStyle.red, label="Close")
+            )
+            await inter.message.edit(view=view)
 
     async def _process_verification_review(self, inter: disnake.MessageInteraction):
         await inter.response.defer(ephemeral=True)

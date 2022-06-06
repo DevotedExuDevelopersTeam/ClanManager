@@ -182,7 +182,9 @@ class ClanManagement(commands.Cog):
         user: disnake.Member,
         clan: str = clans,
     ):
-        await user.add_roles(self.bot.get_role(CLAN_ROLES[clan]), self.bot.clan_member, self.bot.verified)
+        await user.add_roles(
+            self.bot.get_role(CLAN_ROLES[clan]), self.bot.clan_member, self.bot.verified
+        )
         await inter.send(f"Successfully added `{clan}` role to {user.mention}")
 
     @commands.slash_command(
@@ -298,6 +300,22 @@ class Miscellaneous(commands.Cog):
             await inter.send("This person doesn't have ID assigned.")
             return
         await inter.send(f"ID of {user.mention} is `{id}`")
+
+    @commands.slash_command(
+        name="getuserbyid",
+        description="Gets a user with the corresponding pixelgun ID, if found",
+    )
+    async def getuserbyid(
+        self, inter: disnake.ApplicationCommandInteraction, pg_id: int
+    ):
+        member = await self.bot.get_member_by_pg_id(pg_id)
+        if member is None:
+            await inter.send("Couldn't find any members with this ID")
+            return
+        await inter.send(
+            f"This ID belongs to {member} ({member.mention}",
+            allowed_mentions=disnake.AllowedMentions(users=False),
+        )
 
 
 def setup(bot: Bot):

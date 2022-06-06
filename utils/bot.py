@@ -126,3 +126,10 @@ class Bot(commands.Bot):
             return (await cur.fetchone())[0]
         except (KeyError, ValueError):
             return None
+
+    async def get_member_by_pg_id(self, pg_id: int) -> disnake.Member | None:
+        cur = await self.execute("SELECT id FROM ids WHERE pg_id = ?", pg_id)
+        res = await cur.fetchone()
+        if len(res) == 0:
+            return None
+        return await self.server.get_or_fetch_member(res[0])
