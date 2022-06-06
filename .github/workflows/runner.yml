@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Update ExenDLR
+        run: |
+          pip install -U pip
+          pip install -U exendlr
+
       - name: Build Docker Image
         run: docker build -t clan-manager .
 
@@ -25,7 +30,7 @@ jobs:
         run: docker run -d --name clan-manager -v $HOME/clan/data:/app/data -e TOKEN=$TOKEN clan-manager:latest
 
       - name: Fetch Logs
-        run: python3 read_logs.py
+        run: python3 -m exendlr clan-manager "bot is ready!"
 
       - name: Destroy Unused Containers
         run: docker image prune -f
