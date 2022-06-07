@@ -64,7 +64,7 @@ class ClanApplicationForm(Modal):
             name=f"apl-{inter.author}",
             category=inter.channel.category,
             overwrites={
-                inter.author: PermissionOverwrite(read_messages=True),
+                inter.author: PermissionOverwrite(read_messages=True, attach_files=True),
                 inter.guild.default_role: PermissionOverwrite(read_messages=False),
             },
         )
