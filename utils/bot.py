@@ -28,10 +28,8 @@ class Bot(commands.Bot):
         self.pending_verification_requests = []
 
     async def execute(self, query: str, *args) -> aiosqlite.Cursor:
-        self.log.info(f'Executing query: "{query}" with args {args}...')
         cur = await self.db.execute(query, args)
         await self.db.commit()
-        self.log.info("Query executed successfully.")
         return cur
 
     async def create_database(self):
