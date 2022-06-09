@@ -106,7 +106,8 @@ class ApplicationListeners(commands.Cog):
             )
 
             await inter.send(
-                f"The application was marked as approved. Discussion channel: {channel.mention}",
+                f"The application was marked as approved. Please lead to {channel.mention} and give {member.mention} \
+instructions on how to join the clan.",
                 ephemeral=True,
             )
 
@@ -123,11 +124,16 @@ class ApplicationListeners(commands.Cog):
 ```REGEX DATA\nCLAN::{res}\nID::{member.id}```",
                 view=view,
             )
+            await channel.send(
+                f"Hey {member.mention}! Your application was accepted by {inter.author.mention} \
+and they will help you to join the clan now!"
+            )
             try:
                 await member.send(
-                    f"Congratulations, you were accepted into `{res}`! Please wait in {channel.mention} for further instructions."
+                    f"Congratulations, you were accepted into `{res}`! Please wait in {channel.mention} \
+for further instructions."
                 )
-            except:
+            except disnake.HTTPException:
                 pass
 
     async def _process_discussion_channel(self, inter: disnake.MessageInteraction):

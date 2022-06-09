@@ -4,7 +4,6 @@ import disnake
 from disnake.ext import commands, tasks
 
 from utils.bot import Bot
-from utils.constants import CLAN_ROLES
 from utils.events import ON_SLASH_COMMAND_ERROR
 
 

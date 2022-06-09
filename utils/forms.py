@@ -1,6 +1,7 @@
 from asyncio import TimeoutError, sleep
 from os import remove
 
+import disnake
 from disnake import (
     ButtonStyle,
     Embed,
@@ -64,7 +65,9 @@ class ClanApplicationForm(Modal):
             name=f"apl-{inter.author}",
             category=inter.channel.category,
             overwrites={
-                inter.author: PermissionOverwrite(read_messages=True, attach_files=True),
+                inter.author: PermissionOverwrite(
+                    read_messages=True, attach_files=True
+                ),
                 inter.guild.default_role: PermissionOverwrite(read_messages=False),
             },
         )
@@ -80,14 +83,18 @@ class ClanApplicationForm(Modal):
         while 1:
             try:
                 m: Message = await self.bot.wait_for(
-                    "message", check=lambda m: len(m.attachments) != 0, timeout=300
+                    "message", check=lambda mg: len(mg.attachments) != 0, timeout=300
                 )
                 file_path = f".tmp/{inter.author.id}.png"
+                confirm_mg = await channel.send(
+                    "Please wait, submitting your application..."
+                )
                 await m.attachments[0].save(file_path)
                 await m.delete()
                 if calculate_ssim(file_path) < 0.4:
                     await channel.send(
-                        f"Sorry, but this is the wrong screenshot. Please look at the example and try again. If you face the same issue, check out <#{FAQ_CHANNEL_ID}>."
+                        f"Sorry, but this is the wrong screenshot. \
+Please look at the example and try again. If you face the same issue, check out <#{FAQ_CHANNEL_ID}>."
                     )
                     continue
 
@@ -111,8 +118,10 @@ class ClanApplicationForm(Modal):
                 )
                 remove(file_path)
 
+                await confirm_mg.delete()
                 await channel.send(
-                    f"{inter.author.mention}, successfully sent your application! Now please wait for officers' decision."
+                    f"{inter.author.mention}, successfully sent your application! \
+Now please wait for officers' decision."
                 )
                 await sleep(5)
                 await channel.delete()
@@ -120,7 +129,8 @@ class ClanApplicationForm(Modal):
                 return
             except TimeoutError:
                 await channel.send(
-                    f"{inter.author.mention}, your response has timed out. The channel is closing in 10 seconds. Please try again later."
+                    f"{inter.author.mention}, your response has timed out. \
+The channel is closing in 10 seconds. Please try again later."
                 )
                 await sleep(10)
                 await channel.delete()
@@ -129,10 +139,11 @@ class ClanApplicationForm(Modal):
             except Exception as e:
                 self.bot.pending_applicants.remove(inter.author.id)
                 await channel.send(
-                    f"{inter.author.mention}, unknown error occured, we will be investigating it in the nearest time. Please be patient and attempt to try again."
+                    f"{inter.author.mention}, unknown error occured, we will be investigating it in the nearest time. \
+Please be patient and attempt to try again."
                 )
                 await self.bot.admin.send(
-                    f"{self.bot.owner.mention}, unknown error occured\n```{e}```"
+                    f"{self.bot.owner.mention}, unknown error occurred\n```py\n{e}```"
                 )
                 raise e
 
@@ -159,7 +170,7 @@ class ReasonForm(Modal):
             await self.member.send(
                 f"Your clan application was denied: `{inter.text_values['reason']}`"
             )
-        except:
+        except disnake.HTTPException:
             pass
         embed = self.inter.message.embeds[0].add_field(
             "DENIED", f"By: {inter.author}\nReason: {inter.text_values['reason']}"
