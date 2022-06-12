@@ -19,6 +19,8 @@ jobs:
 
       - name: Run Bot
         run: docker-compose up -d
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
 
       - name: Fetch Logs
         run: python3 -m exendlr clan-manager "bot is ready!"
