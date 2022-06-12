@@ -1,17 +1,14 @@
 FROM python:3.10-bullseye
 
-ENV VIRTUAL_ENV=/app/venv
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
 RUN apt-get update -y
 RUN apt-get install -y libgl1-mesa-dev
+RUN pip install -U poetry
 
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY pyproject.toml poetry.lock /app/
+RUN poetry install
 
 COPY . .
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["poetry", "run", "python"]
 CMD ["bot.py"]

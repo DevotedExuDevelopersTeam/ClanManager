@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "clanmanager"
+version = "1.0"
+description = "A bot for managing Psychotics clan with discord"
+authors = ["Exenifix"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+disnake = "^2.5.1"
+aiosqlite = "^0.17.0"
+python-dotenv = "^0.20.0"
+exencolorlogs = "^0.4"
+Pillow = "^9.1.1"
+opencv-python = "^4.6.0"
+scikit-image = "^0.19.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
