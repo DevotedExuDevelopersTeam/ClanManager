@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  main:
+    build: .
+    container_name: clan-manager
+    volumes:
+      - /home/exenifix/clan/data:/app/data
+
+    environment:
+      - TOKEN

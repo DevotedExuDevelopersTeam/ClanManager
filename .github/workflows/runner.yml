@@ -17,20 +17,8 @@ jobs:
           pip install -U pip
           pip install -U exendlr
 
-      - name: Build Docker Image
-        run: docker build -t clan-manager .
-
-      - name: Kill Previous Container
-        continue-on-error: true
-        run: docker rm -f clan-manager
-
-      - name: Run New Container
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
-        run: docker run -d --name clan-manager -v $HOME/clan/data:/app/data -e TOKEN=$TOKEN clan-manager:latest
+      - name: Run Bot
+        run: docker-compose up -d
 
       - name: Fetch Logs
         run: python3 -m exendlr clan-manager "bot is ready!"
-
-      - name: Destroy Unused Containers
-        run: docker image prune -f
