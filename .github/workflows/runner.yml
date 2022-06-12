@@ -12,13 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Update ExenDLR
-        run: |
-          pip install -U pip
-          pip install -U exendlr
-
       - name: Run Bot
-        run: docker-compose up -d
+        run: docker-compose up -d --build
         env:
           TOKEN: ${{ secrets.TOKEN }}
 
