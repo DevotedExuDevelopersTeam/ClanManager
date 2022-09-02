@@ -8,3 +8,5 @@ services:
 
     environment:
       - TOKEN
+
+    restart: always
