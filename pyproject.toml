@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
-disnake = "^2.5.1"
+disnake = "^2.6.0"
 aiosqlite = "^0.17.0"
 python-dotenv = "^0.20.0"
 exencolorlogs = "^1.0.1"
