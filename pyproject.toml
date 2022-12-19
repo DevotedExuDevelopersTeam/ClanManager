@@ -8,7 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
 disnake = "^2.7.0"
-aiosqlite = "^0.17.0"
+aiosqlite = "^0.18.0"
 python-dotenv = "^0.21.0"
 exencolorlogs = "^1.0.2"
 Pillow = "^9.2.0"
