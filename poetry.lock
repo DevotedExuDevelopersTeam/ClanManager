@@ -100,14 +100,14 @@ python-versions = ">=3.10,<4.0"
 
 [[package]]
 name = "exencolorlogs"
-version = "1.0.2"
+version = "1.1.1"
 description = "A module for nice looking colored logs."
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-exencolor = ">=1.0"
+exencolor = ">=1.1,<2.0"
 
 [[package]]
 name = "frozenlist"
@@ -334,7 +334,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.11"
-content-hash = "9dffb0f4e3fbdc5ecab2a3fbc833c8c4b4c0dd5da88a39a0bf8c50aee98807dd"
+content-hash = "878fa1082e6c5a6ebc159e165942bd2098bf94206f6b4b4ec9c3ce204a2ccf31"
 
 [metadata.files]
 aiohttp = [
@@ -455,8 +455,8 @@ exencolor = [
     {file = "exencolor-1.1.3.tar.gz", hash = "sha256:248e12759db8c5c6d9a120699fdda61932b41c36f984fccfdbcd7c03ad1ae5fa"},
 ]
 exencolorlogs = [
-    {file = "exencolorlogs-1.0.2-py3-none-any.whl", hash = "sha256:902452e5e7ef0661b8476cce48ca16546dc6b4462cb9ed70261d27f0b52534b5"},
-    {file = "exencolorlogs-1.0.2.tar.gz", hash = "sha256:175eb20b676cb0b20da00a365fb15ce019a39e22f3e475cf1cc8189e5e0409bb"},
+    {file = "exencolorlogs-1.1.1-py3-none-any.whl", hash = "sha256:a070e63e68f4794ea4c8bec039bcae93da40e7880533635a0a3f386edcbd6e8f"},
+    {file = "exencolorlogs-1.1.1.tar.gz", hash = "sha256:e61f7d9bbeacebd869ccb3dd1096b77ecb823cd72250584656e30e52774c5748"},
 ]
 frozenlist = [
     {file = "frozenlist-1.3.3-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:ff8bf625fe85e119553b5383ba0fb6aa3d0ec2ae980295aaefa552374926b3f4"},
