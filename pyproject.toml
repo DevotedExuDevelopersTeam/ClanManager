@@ -12,7 +12,7 @@ aiosqlite = "^0.17.0"
 python-dotenv = "^0.21.0"
 exencolorlogs = "^1.0.2"
 Pillow = "^9.2.0"
-opencv-python = "^4.6.0"
+opencv-python = "^4.7.0"
 scikit-image = "^0.19.3"
 
 [tool.poetry.dev-dependencies]
